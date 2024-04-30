@@ -3,6 +3,7 @@ package com.gdb.cloud;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
  * @author: Mr.Gui
@@ -12,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 @SpringBootApplication
 @MapperScan("com.gdb.cloud.mapper")
-
+@RefreshScope //启动 consul 全局配置的动态刷新功能
 public class Main8001 {
     public static void main(String[] args) {
         SpringApplication.run(Main8001.class, args);

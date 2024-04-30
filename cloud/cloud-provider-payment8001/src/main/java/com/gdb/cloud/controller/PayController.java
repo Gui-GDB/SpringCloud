@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,19 +29,17 @@ import java.util.List;
 public class PayController {
     @Resource
     public PayService payService;
+    @Value("${server.port}")
+    private String port;
 
-    @Resource
-    public Environment environment;
-
-//    @Operation(
-//            summary = "获取端口号",
-//            description = "获取当前调用的是哪一个服务，验证是否是负载均衡"
-//    )
-//    @GetMapping("/pay/get/port")
-//    public ResponseResult<String> getPort() throws InterruptedException {
-//        Thread.sleep(1000);
-//        return ResponseResult.success("服务端口 ---> " + environment.getProperty("server.port"));
-//    }
+    @Operation(
+            summary = "获取端口号和consul配置中心的配置",
+            description = "获取配置中心是否生效，获取当前调用的是哪一个服务，验证是否是负载均衡"
+    )
+    @GetMapping(value = "/pay/get/info")
+    private String getInfoByConsul(@Value("${gdb.info}") String info) {
+        return "consul info: " + info + ",port: " + port;
+    }
 
     @Operation(
             summary = "新增",

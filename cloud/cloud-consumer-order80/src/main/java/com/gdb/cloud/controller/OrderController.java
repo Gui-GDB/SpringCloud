@@ -28,15 +28,11 @@ public class OrderController {
     /**
      * 这里采用的是硬编码的地址，可扩展性低下
      */
-    public static final String PAYMENT_SERVICE_URL = "http://localhost:8001";
+//    public static final String PAYMENT_SERVICE_URL = "http://localhost:8001";
+    public static final String PAYMENT_SERVICE_URL = "http://cloud-payment-service";
+
     @Resource
     private RestTemplate restTemplate;
-
-
-//    @GetMapping("/pay/get/port")
-//    public ResponseResult getPayPort(){
-//        return restTemplate.getForObject(PAYMENT_SERVICE_URL + "/pay/get/port", ResponseResult.class);
-//    }
 
     @PostMapping("/pay/add")
     public ResponseResult<String> addOrder(@RequestBody Pay pay) {
