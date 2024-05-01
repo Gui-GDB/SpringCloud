@@ -1,0 +1,14 @@
+server:
+  # 设置端口号
+  port: 8002
+spring:
+  config:
+    # 导入相关的配置文件
+    import: classpath:config/knife4j.yml, config/db.yml # 导入配置文件
+  # 注意，这里代表使用的配置文件是dev文件，获取的consul注册中心的dev配置文件
+  profiles:
+    active: dev
+  # 处理返回的日期格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

@@ -6,3 +6,7 @@ alive: n1 127.0.0.1:8301
 event-clock: 3
 alive: n1 127.0.0.1:8301
 event-clock: 4
+alive: n1 127.0.0.1:8301
+event-clock: 1
+alive: n1 127.0.0.1:8301
+event-clock: 2

@@ -2,17 +2,19 @@ package com.gdb.cloud.controller;
 
 import com.gdb.cloud.pojo.dto.PayDto;
 import com.gdb.cloud.pojo.entity.Pay;
-import com.gdb.cloud.responseResult.ResponseEnum;
 import com.gdb.cloud.responseResult.ResponseResult;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: Mr.Gui
@@ -33,6 +35,29 @@ public class OrderController {
 
     @Resource
     private RestTemplate restTemplate;
+    @Resource
+    private DiscoveryClient discoveryClient;
+
+    @Operation(
+            summary = "获取当前注册中心上的所有服务"
+    )
+    @GetMapping("/discovery")
+    public ResponseResult<List<String>> discovery() {
+        List<String> list = new ArrayList<>();
+        List<String> services = discoveryClient.getServices();
+        for (String element : services) {
+            List<ServiceInstance> instances = discoveryClient.getInstances(element);
+            for (ServiceInstance ele : instances) {
+                list.add(ele.getServiceId() + "     " + ele.getHost() + "       " + ele.getPort() + "       " + ele.getUri());
+            }
+        }
+        return ResponseResult.success(list);
+    }
+
+    @GetMapping("/pay/get/info")
+    public String getPort() {
+        return restTemplate.getForObject(PAYMENT_SERVICE_URL + "/pay/get/info", String.class);
+    }
 
     @PostMapping("/pay/add")
     public ResponseResult<String> addOrder(@RequestBody Pay pay) {

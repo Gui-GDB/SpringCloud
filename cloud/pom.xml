@@ -26,6 +26,10 @@
         <module>mybatis-generator</module>
         <module>cloud-pojo</module>
         <module>cloud-common</module>
+        <module>cloud-consumer-order80</module>
+        <module>cloud-provider-payment8001</module>
+        <module>cloud-provider-payment8002</module>
+        <module>cloud-provider-payment8003</module>
     </modules>
 
     <!--规定使用各个组件的版本号-->
