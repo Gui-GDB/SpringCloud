@@ -1,0 +1,5 @@
+server:
+  port: 80
+spring:
+  config:
+    import: config/consul.yml, config/openfeign.yml, config/circuitbreaker.yml

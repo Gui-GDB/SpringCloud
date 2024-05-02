@@ -30,7 +30,8 @@
         <module>cloud-provider-payment8001</module>
         <module>cloud-provider-payment8002</module>
         <module>cloud-provider-payment8003</module>
-        <module>cloud-consumer-feign-orde80</module>
+        <module>cloud-consumer-feign-order80</module>
+        <module>cloud-consumer-resilience4j-order80</module>
     </modules>
 
     <!--规定使用各个组件的版本号-->

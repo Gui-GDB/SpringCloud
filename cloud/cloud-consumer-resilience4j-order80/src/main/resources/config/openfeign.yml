@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    openfeign:
+      # 开启 circuitbreaker 和 分组激活
+      circuitbreaker:
+        enabled: true
+        # 没开分组永远不用分组的配置。精确优先、分组次之（开了分组）、默认最后
+        group:
+          enabled: true

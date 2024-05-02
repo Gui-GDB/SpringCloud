@@ -1,0 +1,64 @@
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        # 设置 50% 的失败率，超过失败请求百分比 CircuitBreaker 变为 OPEN 状态。
+        failure-rate-threshold: 50
+        # 滑动窗口类型
+        sliding-window-type: COUNT_BASED
+        # 滑动窗口的大小, 配置 COUNT_BASED 表示 6 个请求，配置 TIME_BASED 表示 6 秒。
+        sliding-window-size: 6
+        # 断路器计算失败率或慢调用率之前所需的最小样本（每个滑动窗口周期）。如果 minimumNumberOfCalls 为 10, 则必须最少记录 10 个样本，然后才能计算失败率。如果只记录了9次调用，即使所有9次调用都失败，断路器也不会开启。
+        minimum-number-of-calls: 6
+        # 是否启用自动从 OPEN ---> HALF_OPEN, 默认值就为 TRUE
+        automatic-transition-from-open-to-half-open-enabled: true
+        # 从 OPEN 到 HALF_OPEN状态需要等待的时间
+        wait-duration-in-open-state:
+          seconds: 10
+        # 半开状态允许的最大请求值
+        permitted-number-of-calls-in-half-open-state: 2
+        # 记录的异常类型
+        record-exceptions:
+          - java.lang.Exception
+    # 以上的配置适用于那个微服务
+    instances:
+      cloud-payment-service:
+        base-config: default
+
+# 服务器的熔断降级配置——时间滑动窗口
+#resilience4j:
+#  timelimiter:
+#    configs:
+#      default:
+#        # 神坑的位置，timelimiter 默认限制远程 1s,超过 1s 就超时异常，配置了降级，就直接走降级逻辑了
+#        timeout-duration:
+#          seconds: 20
+#  circuitbreaker:
+#    configs:
+#      default:
+#        #设置 50% 的失败率，超过失败请求百分比 CircuitBreaker 变为 OPEN 状态。
+#        failure-rate-threshold: 50
+#        # 滑动窗口类型
+#        sliding-window-type: TiME_BASED
+#        # 慢调用时间阈值，高于这个阈值的视为慢调用并增加慢调用比例。
+#        slow-call-duration-threshold:
+#          seconds: 2
+#        #慢调用百分比峰值，断路器把调用时间大于 slow-call-duration-threshold,视为慢调用，当慢调用比例高于这个的时候进入到 OPEN。
+#        slow-call-rate-threshold: 30
+#        # 滑动窗口的大小, 配置 COUNT_BASED 表示 2 个请求，配置 TIME_BASED 表示 2 秒。
+#        sliding-window-size: 2
+#        # 断路器计算失败率或慢调用率之前所需的最小样本（每个滑动窗口周期）。如果 minimumNumberOfCalls 为 10, 则必须最少记录 10 个样本，然后才能计算失败率。如果只记录了9次调用，即使所有9次调用都失败，断路器也不会开启。
+#        minimum-number-of-calls: 2
+#        automatic-transition-from-open-to-half-open-enabled: true  # 是否启用自动从 OPEN ---> HALF_OPEN, 默认值就为 TRUE
+#        # 从 OPEN 到 HALF_OPEN状态需要等待的时间
+#        wait-duration-in-open-state:
+#          seconds: 10
+#        # 半开状态允许的最大请求值为
+#        permitted-number-of-calls-in-half-open-state: 2
+#        # 记录的异常类型
+#        record-exceptions:
+#          - java.lang.Exception
+#    # 以上的配置适用于那个微服务
+#    instances:
+#      cloud-payment-service:
+#        base-config: default
