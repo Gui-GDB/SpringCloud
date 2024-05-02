@@ -38,7 +38,8 @@ public class PayController {
             description = "获取配置中心是否生效，获取当前调用的是哪一个服务，验证是否是负载均衡"
     )
     @GetMapping(value = "/get/info")
-    private String getInfoByConsul(@Value("${gdb.info}") String info) {
+    private String getInfoByConsul(@Value("${gdb.info}") String info) throws InterruptedException {
+        Thread.sleep(62000);
         return "consul info: " + info + ",port: " + port;
     }
 

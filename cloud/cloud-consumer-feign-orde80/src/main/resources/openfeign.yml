@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    # 配置OpenFeign
+    openfeign:
+      client:
+        config:
+          # 全局配置 openfeign 的超时时间限制
+          default:
+            # 连接超时时间
+            connectTimeout: 3000
+            # 读取超时时间(业务处理时间)
+            readTimeout: 3000
+          # 局部 openfeign 的超时时间限制，全局配置和局部配置可以同时存在，遵循局部优先原则
+          cloud-payment-service:
+            # 连接超时时间
+            connectTimeout: 20000
+            # 读取超时时间(业务处理时间)
+            readTimeout: 20000
+      #开启httpClient5
+      httpclient:
+        hc5:
+          enabled: true
+      # 设置 request 和 response 是否进行 gzip 压缩
+      compression:
+        request:
+          # 开启请求压缩
+          enabled: true
+          # 请求触发压缩的最小值
+          min-request-size: 2048
+          # 请求触发压缩的数据类型
+          mime-types: text/html, application/xml, application/json
+        response:
+          # 开启响应压缩
+          enabled: true
+# feign日志以什么级别监控哪个接口
+logging:
+  level:
+    com:
+      gdb:
+        cloud:
+          api:
+            PayFeignAPI: debug
